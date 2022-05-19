@@ -172,6 +172,14 @@ const steampUpdate = async () => {
     alert('Ошибка получения предметов со Steamp');
   }
 };
+
+const getMarketURL = (name: string) => {
+  return `https://market.csgo.com/?s=price&sd=asc&t=all&search=${name}`;
+};
+
+const getSteamURL = (name: string) => {
+  return `https://steamcommunity.com/market/listings/730/${name}`;
+};
 </script>
 
 <template>
@@ -190,17 +198,17 @@ const steampUpdate = async () => {
 
     <div class="filters">
       <Filter name="Цена на маркете" v-model="filters.market_price" />
-      <Filter name="Цена на маркете" v-model="filters.steam_price" />
-      <Filter name="Цена на маркете" v-model="filters.steam_bprice" />
-      <Filter name="Цена на маркете" v-model="filters.steam_count" />
-      <Filter name="Цена на маркете" v-model="filters.steam_bcount" />
-      <Filter name="Цена на маркете" v-model="filters.profit_price" />
-      <Filter name="Цена на маркете" v-model="filters.profit_bprice" />
+      <Filter name="Цена в стиме" v-model="filters.steam_price" />
+      <Filter name="Цена автозакупа" v-model="filters.steam_bprice" />
+      <Filter name="Запросов на продажу" v-model="filters.steam_count" />
+      <Filter name="Запросов на покупку" v-model="filters.steam_bcount" />
+      <Filter name="Профит по цене" v-model="filters.profit_price" />
+      <Filter name="Профит автозакуп" v-model="filters.profit_bprice" />
     </div>
   </header>
   <main>
     <table>
-      <tr>
+      <tr v-show="paginate.length">
         <th>Название</th>
         <th @click="changeSort('market_price')">Цена на маркете</th>
         <th @click="changeSort('steam_price')">Цена в стиме</th>
@@ -209,6 +217,7 @@ const steampUpdate = async () => {
         <th @click="changeSort('steam_bcount')">Запросов на покупку</th>
         <th @click="changeSort('profit_price')">Профит по цене</th>
         <th @click="changeSort('profit_bprice')">Профит автозакуп</th>
+        <th>Ссылки</th>
       </tr>
       <tr v-for="item in paginate">
         <td>{{ item.name }}</td>
@@ -219,6 +228,10 @@ const steampUpdate = async () => {
         <td>{{ item.steam_bcount }}</td>
         <td>{{ item.profit_price.toFixed(2) }}</td>
         <td>{{ item.profit_bprice.toFixed(2) }}</td>
+        <td>
+          <a :href="getMarketURL(item.name)" target="_blank">Market</a>
+          <a :href="getSteamURL(item.name)" target="_blank">Steamp</a>
+        </td>
       </tr>
     </table>
   </main>
