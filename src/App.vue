@@ -141,7 +141,7 @@ const changeSort = (value: string) => {
 
 const marketUpdate = async () => {
   try {
-    const response = await fetch('http://market.sknx.ru:8800/market').then(
+    const response = await fetch('https://market.sknx.ru/market').then(
       (response) => response.json(),
     );
     if (response.success) {
@@ -161,7 +161,7 @@ const marketUpdate = async () => {
 const steampUpdate = async () => {
   try {
     const response = await fetch(
-      'http://market.sknx.ru:8800/steamp/' + steampKey.value,
+      'https://market.sknx.ru/steamp/' + steampKey.value,
     ).then((response) => response.json());
     if (response.success) {
       data.steampItems = response.items;
